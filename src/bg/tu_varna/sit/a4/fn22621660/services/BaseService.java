@@ -22,7 +22,7 @@ public class BaseService implements IBaseService
     }
 
     @Override
-    public void OpenFile(String fileName) throws IOException {
+    public void openFile(String fileName) throws IOException {
         try {
             String jsonContent = readFileContent(fileName);
             validateJson.validateJSON(jsonContent);

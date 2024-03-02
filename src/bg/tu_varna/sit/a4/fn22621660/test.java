@@ -5,7 +5,7 @@ public class test {
     public static void main(String[] args) throws IOException {
         String fileName = "appsettings.Development.json";
         BaseService baseService = new BaseService();
-        baseService.OpenFile(fileName);
+        baseService.openFile(fileName);;
 
     }
 }

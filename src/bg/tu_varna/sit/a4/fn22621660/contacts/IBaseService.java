@@ -5,5 +5,5 @@ import java.io.IOException;
 public interface IBaseService
 {
     String readFileContent(String fileName) throws IOException;
-    void OpenFile(String fileName) throws IOException;
+    void openFile(String fileName) throws IOException;
 }
