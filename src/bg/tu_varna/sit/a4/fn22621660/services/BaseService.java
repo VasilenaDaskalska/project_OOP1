@@ -2,35 +2,78 @@ package bg.tu_varna.sit.a4.fn22621660.services;
 
 import bg.tu_varna.sit.a4.fn22621660.contacts.IBaseService;
 import bg.tu_varna.sit.a4.fn22621660.exeptions.InvalidJsonException;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+
+import java.io.*;
+import java.util.Scanner;
 
 public class BaseService implements IBaseService
 {
-    ValidateJson validateJson = new ValidateJson();
+    private final ValidateJson validateJson = new ValidateJson();
+    private File currentFile;
+    private boolean fileOpened;
+    private StringBuilder content;
+
     @Override
     public String readFileContent(String fileName) throws IOException {
-        StringBuilder content = new StringBuilder();
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                content.append(line);
-            }
+        this.currentFile = new File(fileName);
+        Scanner fileScanner = new Scanner(currentFile);
+        this.content = new StringBuilder();
+        this.content.setLength(0);
+        while (fileScanner.hasNextLine()) {
+            String line = fileScanner.nextLine();
+            this.content.append(line).append("\n");
         }
+        fileScanner.close();
+        fileOpened = true;
         return content.toString();
     }
 
     @Override
-    public void openFile(String fileName) throws IOException {
+    public void openFile(String fileName) throws IOException{
+        this.currentFile = new File(fileName);
         try {
-            String jsonContent = readFileContent(fileName);
-            validateJson.validateJSON(jsonContent);
-            System.out.println("JSON е валиден.");
+            if(this.currentFile.exists())
+            {
+                String jsonContent = readFileContent(fileName);
+                System.out.println("Successfully opened " + fileName + "!");
+                this.validateJson.validateJSON(jsonContent);
+                System.out.println("JSON is valid!");
+                this.fileOpened = true;
+            }else
+            {
+                if(currentFile.createNewFile())
+                {
+                    System.out.println("Successfully opened " + fileName + "!");
+                    this.fileOpened = true;
+                }else
+                {
+                    System.out.println("Failed to created the file!");
+                }
+            }
         } catch (IOException e) {
-            System.err.println("Грешка при четене на файла: " + e.getMessage());
+            System.err.println("Error occurred while accessing the file! " + e.getMessage());
         } catch (InvalidJsonException e) {
-            System.err.println("Невалиден JSON: " + e.getMessage());
+            System.err.println("Invalid JSON: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void closeFile()
+    {
+        if (this.fileOpened) {
+            try {
+                FileWriter writer = new FileWriter(this.currentFile);
+                writer.write(content.toString());
+                writer.close();
+                System.out.println("File closed successfully.");
+                this.fileOpened = false;
+                this.content.setLength(0);
+            } catch (IOException e) {
+                System.out.println("An error occurred while closing the file.");
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("No file is currently opened.");
         }
     }
 }
