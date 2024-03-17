@@ -11,6 +11,9 @@ public class test {
             System.out.println("1. Open");
             System.out.println("2. Close");
             System.out.println("3. Exit");
+            System.out.println("4.Save");
+            System.out.println("5.Save as");
+            System.out.println("6. Help");
             System.out.print("Choose an option: ");
             Scanner scanner = new Scanner(System.in);
             int choice = scanner.nextInt();
@@ -18,10 +21,7 @@ public class test {
 
             switch (choice) {
                 case 1:
-                    System.out.print("Enter file name: ");
-                    Scanner fileNameSetter = new Scanner(System.in);
-                    fileName = fileNameSetter.nextLine();
-                    baseService.openFile(fileName);
+                    baseService.openFile(scanner);
                     break;
                 case 2:
                     baseService.closeFile();
@@ -30,6 +30,15 @@ public class test {
                     System.out.println("Exiting program...");
                     scanner.close();
                     return;
+                case 4:
+                    baseService.saveFile();
+                    break;
+                case 5:
+                    baseService.saveAsFile(scanner);
+                    break;
+                case 6:
+                    baseService.help();
+                    break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
