@@ -10,5 +10,6 @@ public interface IBaseService
     void closeFile();
     void saveFile();
     void saveAsFile(Scanner scanner);
+    void print(Scanner scanner) throws  IOException;
     void help();
 }

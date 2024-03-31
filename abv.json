@@ -1,0 +1,31 @@
+[
+  {
+    "id": 1,
+    "name": "team1",
+    "students": [
+      {
+        "id": 1,
+        "firstName": "Ivan",
+        "secondName": "Ivanov",
+        "phone": "+6225525",
+        "email": "safsf@afas.ru",
+        "tasks": [
+          {
+            "id": 1,
+            "name": "task 1",
+            "status": "done",
+            "labels": [
+              {
+                "name": "Java programming"
+              },
+              {
+                "name": "Version control"
+              }
+            ],
+            "description": "sfafafa"
+          }
+        ]
+      }
+    ]
+  }
+]

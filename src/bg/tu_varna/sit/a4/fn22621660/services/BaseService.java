@@ -98,6 +98,30 @@ public class BaseService implements IBaseService
     }
 
     @Override
+    public void print(Scanner scanner) throws IOException
+    {
+        try {
+            System.out.print("Enter file name: ");
+            String fileName = scanner.nextLine();
+            this.currentFile = new File(fileName);
+            Scanner fileScanner = new Scanner(currentFile);
+            this.content = new StringBuilder();
+            this.content.setLength(0);
+            while (fileScanner.hasNextLine()) {
+                String line = fileScanner.nextLine();
+                this.content.append(line).append("\n");
+            }
+            fileScanner.close();
+            this.fileOpened = true;
+            System.out.println(content.toString());
+        }catch (IOException ex)
+        {
+            System.out.println("An error occurred while reading the file.");
+            ex.printStackTrace();
+        }
+    }
+
+    @Override
     public void help()
     {
         System.out.println("The following commands are supported");
