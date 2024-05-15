@@ -186,13 +186,18 @@ public class BaseService implements IBaseService
     public void help()
     {
         System.out.println("The following commands are supported");
-        System.out.println("open <file>\t\topens <file>");
-        System.out.println("edit \t\tedit");
-        System.out.println("close \t \t\tcloses currently opened file");
-        System.out.println("save \t \t\tsaves the currently open file");
-        System.out.println("save as <file>\tsaves the currently open file in <file");
-        System.out.println("help \t \t\tprints this information");
-        System.out.println("exit \t \t\texists the program");
+        System.out.println("open <path>         opens <file>");
+        System.out.println("create <path>       creates <file>");
+        System.out.println("edit                edit currently opened file");
+        System.out.println("move <from> <to>    move form <file> to <file>");
+        System.out.println("save                saves the currently open file");
+        System.out.println("save as <path>      saves the currently open file in <file>");
+        System.out.println("set <path> <string> replacing the content in <file> with <string>");
+        System.out.println("print <path>        prints everything in <file>");
+        System.out.println("delete <path>       delete <file>");
+        System.out.println("close               closes currently opened file");
+        System.out.println("help                prints this information");
+        System.out.println("exit                exists the program");
     }
 
     @Override
