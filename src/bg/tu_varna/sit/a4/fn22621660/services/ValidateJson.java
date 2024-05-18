@@ -3,8 +3,17 @@ package bg.tu_varna.sit.a4.fn22621660.services;
 import bg.tu_varna.sit.a4.fn22621660.contacts.IValidateJson;
 import bg.tu_varna.sit.a4.fn22621660.exeptions.InvalidJsonException;
 
+/**
+ * Implementation of the IValidateJson interface for JSON validation.
+ */
 public class ValidateJson implements IValidateJson
 {
+    /**
+     * Validates the syntax of a JSON string.
+     *
+     * @param jsonContent The JSON string to validate.
+     * @throws InvalidJsonException If the JSON syntax is invalid.
+     */
     @Override
     public void validateJSON(String jsonContent) throws InvalidJsonException {
         int curlyBraces = 0;
@@ -19,14 +28,14 @@ public class ValidateJson implements IValidateJson
             } else if (c == '}' && !inQuotes) {
                 curlyBraces--;
                 if (curlyBraces < 0) {
-                    throw new InvalidJsonException("Грешка: Неправилно затваряне на фигурни скоби.");
+                    throw new InvalidJsonException("Error: Incorrect closing of braces.");
                 }
             } else if (c == '[' && !inQuotes) {
                 squareBrackets++;
             } else if (c == ']' && !inQuotes) {
                 squareBrackets--;
                 if (squareBrackets < 0) {
-                    throw new InvalidJsonException("Грешка: Неправилно затваряне на квадратни скоби.");
+                    throw new InvalidJsonException("Error: Incorrect closing of square brackets.");
                 }
             }
             else if (c == '"') {

@@ -10,13 +10,30 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+/**
+ * Implementation of the {@link IBaseService} interface providing basic file operations and JSON handling.
+ */
 public class BaseService implements IBaseService
 {
+    /** Instance of {@link ValidateJson} used for JSON validation. */
     private final ValidateJson validateJson = new ValidateJson();
+
+    /** The currently opened file. */
     private  File currentFile;
+
+    /** Flag indicating whether a file is currently opened or not. */
     private  boolean fileOpened = false;
+
+    /** The content of the currently opened file. */
     private  StringBuilder content;
 
+    /**
+     * Reads the content of a file.
+     *
+     * @param fileName The path to the file.
+     * @return The content of the file.
+     * @throws IOException If an I/O error occurs.
+     */
     @Override
     public String readFileContent(String fileName) throws IOException {
         this.currentFile = new File(fileName);
@@ -32,6 +49,12 @@ public class BaseService implements IBaseService
         return content.toString();
     }
 
+    /**
+     * Opens a file for reading and validation.
+     *
+     * @param scanner The scanner object for user input.
+     * @throws IOException If an I/O error occurs.
+     */
     @Override
     public void openFile(Scanner scanner) throws IOException{
         System.out.print("Enter path: ");
@@ -79,6 +102,12 @@ public class BaseService implements IBaseService
         }
     }
 
+    /**
+     * Deletes a file.
+     *
+     * @param scanner The scanner object for user input.
+     * @throws IOException If an I/O error occurs.
+     */
     @Override
     public void deleteFile(Scanner scanner) throws IOException{
         System.out.print("Enter path: ");
@@ -114,6 +143,13 @@ public class BaseService implements IBaseService
         }
     }
 
+    /**
+     * Creates a new file.
+     *
+     * @param scanner1 The scanner object for user input of file path.
+     * @param scanner2 The scanner object for user input of file content.
+     * @throws IOException If an I/O error occurs.
+     */
     @Override
     public void createFile(Scanner scanner1, Scanner scanner2) throws IOException{
         System.out.print("Enter path: ");
@@ -167,6 +203,9 @@ public class BaseService implements IBaseService
         }
     }
 
+    /**
+     * Saves changes to the currently opened file.
+     */
     @Override
     public void saveFile() {
         if (this.fileOpened) {
@@ -184,6 +223,11 @@ public class BaseService implements IBaseService
         }
     }
 
+    /**
+     * Saves the content of the currently opened file to a new file.
+     *
+     * @param scanner The scanner object for user input of new file path.
+     */
     @Override
     public void saveAsFile(Scanner scanner) {
         if (this.fileOpened)
@@ -220,6 +264,11 @@ public class BaseService implements IBaseService
         }
     }
 
+    /**
+     * Prints the content of the currently opened file.
+     *
+     * @throws IOException If an I/O error occurs.
+     */
     @Override
     public void print() throws IOException
     {
@@ -243,6 +292,9 @@ public class BaseService implements IBaseService
         }
     }
 
+    /**
+     * Displays help information about supported commands.
+     */
     @Override
     public void help()
     {
@@ -261,6 +313,11 @@ public class BaseService implements IBaseService
         System.out.println("exit                   exists the program");
     }
 
+    /**
+     * Prints the content of the currently opened file.
+     *
+     * @throws IOException If an I/O error occurs.
+     */
     @Override
     public void editFile(Scanner scanner) throws IOException, InvalidJsonException
     {
@@ -278,6 +335,9 @@ public class BaseService implements IBaseService
         }
     }
 
+    /**
+     * Closes the currently opened file.
+     */
     @Override
     public void closeFile()
     {
@@ -297,6 +357,15 @@ public class BaseService implements IBaseService
             System.out.println("No file is currently opened.");
         }
     }
+
+    /**
+     * Replaces the content of the currently opened file with new content.
+     *
+     * @param scanner1 The scanner object for user input of file path.
+     * @param scanner2 The scanner object for user input of new content.
+     * @throws IOException            If an I/O error occurs.
+     * @throws InvalidJsonException If the new content is invalid JSON.
+     */
 
         @Override
         public void setFile(Scanner scanner1, Scanner scanner2) throws IOException, InvalidJsonException
@@ -345,6 +414,13 @@ public class BaseService implements IBaseService
             }
         }
 
+    /**
+     * Moves the content of a directory to another directory.
+     *
+     * @param scanner1 The scanner object for user input of source directory path.
+     * @param scanner2 The scanner object for user input of target directory path.
+     * @throws IOException If an I/O error occurs.
+     */
     @Override
     public void moveFileContent(Scanner scanner1, Scanner scanner2) throws IOException
     {

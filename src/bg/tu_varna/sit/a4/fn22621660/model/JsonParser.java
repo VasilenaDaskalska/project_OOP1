@@ -9,12 +9,18 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Scanner;
 
+/**
+ * Class responsible for parsing JSON and handling menu operations.
+ */
 public class JsonParser
 {
     private BaseService baseService;
     private Map<String, Runnable> menuOptions;
     private boolean fileOpened;
 
+    /**
+     * Constructs a new JsonParser.
+     */
     public JsonParser()
     {
         this.baseService = new BaseService();
@@ -39,6 +45,9 @@ public class JsonParser
         return Objects.hash(baseService, menuOptions, fileOpened);
     }
 
+    /**
+     * Loads the menu options and their corresponding actions.
+     */
     public void loadMenuOptions()
     {
         Scanner scanner = new Scanner(System.in);
@@ -134,6 +143,9 @@ public class JsonParser
         });
     }
 
+    /**
+     * Generates and displays the menu, and handles user input.
+     */
     public void generateManu()
     {
         Scanner scanner = new Scanner(System.in);
