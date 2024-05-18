@@ -112,7 +112,7 @@ public class JsonParser
         {
             try
             {
-                this.baseService.print(scanner);
+                this.baseService.print();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

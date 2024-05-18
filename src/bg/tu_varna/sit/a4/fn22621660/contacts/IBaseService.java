@@ -12,7 +12,7 @@ public interface IBaseService
     void closeFile();
     void saveFile();
     void saveAsFile(Scanner scanner);
-    void print(Scanner scanner) throws  IOException;
+    void print() throws  IOException;
     void help();
     void editFile(Scanner scanner) throws IOException, InvalidJsonException;
     void setFile(Scanner scanner1, Scanner scanner2) throws IOException, InvalidJsonException;

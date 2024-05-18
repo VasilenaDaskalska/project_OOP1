@@ -4,6 +4,7 @@ import bg.tu_varna.sit.a4.fn22621660.contacts.IBaseService;
 import bg.tu_varna.sit.a4.fn22621660.exeptions.InvalidJsonException;
 
 import java.io.*;
+import java.nio.file.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,14 +34,30 @@ public class BaseService implements IBaseService
 
     @Override
     public void openFile(Scanner scanner) throws IOException{
-        System.out.print("Enter file name: ");
-        String fileName = scanner.nextLine();
-        currentFile = new File(fileName);
+        System.out.print("Enter path: ");
+        String path = scanner.nextLine();
+        currentFile = new File(path);
+
+        try {
+            Paths.get(path);
+        } catch (InvalidPathException e) {
+            System.out.println("Invalid file path!");
+            return;
+        }
+
+        File newFile = new File(path);
+
+        if(newFile.isDirectory())
+        {
+            System.out.println("This is a directory not a file!");
+            return;
+        }
+
         try {
             if(this.currentFile.exists())
             {
-                String jsonContent = readFileContent(fileName);
-                System.out.println("Successfully opened " + fileName + "!");
+                String jsonContent = readFileContent(path);
+                System.out.println("Successfully opened " + newFile.getName() + "!");
                 this.validateJson.validateJSON(jsonContent);
                 System.out.println("JSON is valid!");
                 fileOpened = true;
@@ -48,7 +65,7 @@ public class BaseService implements IBaseService
             {
                 if(currentFile.createNewFile())
                 {
-                    System.out.println("Successfully opened " + fileName + "!");
+                    System.out.println("Successfully opened " + path + "!");
                     fileOpened = true;
                 }else
                 {
@@ -64,9 +81,24 @@ public class BaseService implements IBaseService
 
     @Override
     public void deleteFile(Scanner scanner) throws IOException{
-        System.out.print("Enter file name: ");
-        String fileName = scanner.nextLine();
-        currentFile = new File(fileName);
+        System.out.print("Enter path: ");
+        String path = scanner.nextLine();
+
+        try {
+            Paths.get(path);
+        } catch (InvalidPathException e) {
+            System.out.println("Invalid file path!");
+            return;
+        }
+
+        currentFile = new File(path);
+
+        if(currentFile.isDirectory())
+        {
+            System.out.println("This is a directory not a file!");
+            return;
+        }
+
         if (!this.currentFile.exists())
         {
             System.out.println("File doesn't exit!");
@@ -74,7 +106,7 @@ public class BaseService implements IBaseService
         {
             if (currentFile.delete())
             {
-                System.out.println("Successfully deleted " + fileName + "!");
+                System.out.println("Successfully deleted " + currentFile.getName() + "!");
                 fileOpened = false;
             } else {
                 System.out.println("Failed to delete the file!");
@@ -84,9 +116,24 @@ public class BaseService implements IBaseService
 
     @Override
     public void createFile(Scanner scanner1, Scanner scanner2) throws IOException{
-        System.out.print("Enter file name: ");
-        String fileName = scanner1.nextLine();
-        currentFile = new File(fileName);
+        System.out.print("Enter path: ");
+        String path = scanner1.nextLine();
+
+        try {
+            Paths.get(path);
+        } catch (InvalidPathException e) {
+            System.out.println("Invalid file path!");
+            return;
+        }
+
+        currentFile = new File(path);
+
+        if(currentFile.isDirectory())
+        {
+            System.out.println("This is a directory not a file!");
+            return;
+        }
+
         try {
             if(!this.currentFile.exists())
             {
@@ -143,12 +190,27 @@ public class BaseService implements IBaseService
         {
             System.out.print("Enter new file path: ");
             String filePath = scanner.nextLine();
+
+            try {
+                Paths.get(filePath);
+            } catch (InvalidPathException e) {
+                System.out.println("Invalid file path!");
+                return;
+            }
+
             File newFile = new File(filePath);
+
+            if(newFile.isDirectory())
+            {
+                filePath = filePath + "\\" + this.currentFile;
+                newFile = new File(filePath);
+            }
+
             try {
                 FileWriter writer = new FileWriter(newFile);
                 writer.write(this.content.toString());
                 writer.close();
-                System.out.println("Changes successfully saved to " + newFile.getName());
+                System.out.println("Changes successfully saved " + newFile.getName());
             } catch (IOException e) {
                 System.out.println("An error occurred while saving the file.");
                 e.printStackTrace();
@@ -159,26 +221,25 @@ public class BaseService implements IBaseService
     }
 
     @Override
-    public void print(Scanner scanner) throws IOException
+    public void print() throws IOException
     {
-        try {
-            System.out.print("Enter file name: ");
-            String fileName = scanner.nextLine();
-            this.currentFile = new File(fileName);
-            Scanner fileScanner = new Scanner(currentFile);
-            this.content = new StringBuilder();
-            this.content.setLength(0);
-            while (fileScanner.hasNextLine()) {
-                String line = fileScanner.nextLine();
-                this.content.append(line).append("\n");
-            }
-            fileScanner.close();
-            this.fileOpened = true;
-            System.out.println(content.toString());
-        }catch (IOException ex)
+        if(fileOpened)
         {
-            System.out.println("An error occurred while reading the file.");
-            ex.printStackTrace();
+            try {
+                Scanner fileScanner = new Scanner(currentFile);
+                this.content = new StringBuilder();
+                this.content.setLength(0);
+                while (fileScanner.hasNextLine()) {
+                    String line = fileScanner.nextLine();
+                    this.content.append(line).append("\n");
+                }
+                fileScanner.close();
+                this.fileOpened = true;
+                System.out.println(content.toString());
+            } catch (IOException ex) {
+                System.out.println("An error occurred while reading the file.");
+                ex.printStackTrace();
+            }
         }
     }
 
@@ -186,18 +247,18 @@ public class BaseService implements IBaseService
     public void help()
     {
         System.out.println("The following commands are supported");
-        System.out.println("open <path>         opens <file>");
-        System.out.println("create <path>       creates <file>");
-        System.out.println("edit                edit currently opened file");
-        System.out.println("move <from> <to>    move form <file> to <file>");
-        System.out.println("save                saves the currently open file");
-        System.out.println("save as <path>      saves the currently open file in <file>");
-        System.out.println("set <path> <string> replacing the content in <file> with <string>");
-        System.out.println("print <path>        prints everything in <file>");
-        System.out.println("delete <path>       delete <file>");
-        System.out.println("close               closes currently opened file");
-        System.out.println("help                prints this information");
-        System.out.println("exit                exists the program");
+        System.out.println("open <path>            opens <path>");
+        System.out.println("create <path> <string> creates file with <path> and saves content in it <string>");
+        System.out.println("edit                   edit currently opened file");
+        System.out.println("move <from> <to>       move form <path> to <path>");
+        System.out.println("save                   saves the currently open file");
+        System.out.println("save as <path>         saves the currently open file in <path>");
+        System.out.println("set <path> <string>    replacing the content in <file> with <string>");
+        System.out.println("print                  prints everything in current <file>");
+        System.out.println("delete <path>          delete file on <path>");
+        System.out.println("close                  closes currently opened file");
+        System.out.println("help                   prints this information");
+        System.out.println("exit                   exists the program");
     }
 
     @Override
@@ -211,6 +272,7 @@ public class BaseService implements IBaseService
             this.validateJson.validateJSON(newContent);
             content.append(newContent);
             System.out.println("File content updated.");
+            System.out.println("If you want to save changes in the file, please choose {save} option!");
         } else {
             System.out.println("No file is currently opened.");
         }
@@ -239,14 +301,29 @@ public class BaseService implements IBaseService
         @Override
         public void setFile(Scanner scanner1, Scanner scanner2) throws IOException, InvalidJsonException
         {
-            System.out.print("Enter file name: ");
-            String fileName = scanner1.nextLine();
-            currentFile = new File(fileName);
+            System.out.print("Enter path: ");
+            String path = scanner1.nextLine();
+
+            try {
+                Paths.get(path);
+            } catch (InvalidPathException e) {
+                System.out.println("Invalid file path!");
+                return;
+            }
+
+            currentFile = new File(path);
+
+            if(currentFile.isDirectory())
+            {
+                System.out.println("This is a directory not a file!");
+                return;
+            }
+
             if(this.currentFile.exists())
             {
                 try
                 {
-                    String jsonContent = readFileContent(fileName);
+                    String jsonContent = readFileContent(path);
                     fileOpened = true;
                 }catch (IOException ex)
                 {
@@ -263,6 +340,7 @@ public class BaseService implements IBaseService
                     this.validateJson.validateJSON(newContent);
                     content.append(newContent);
                     System.out.println("File content updated.");
+                    System.out.println("If you want to save changes in the file, please choose {save} option!");
                 }
             }
         }
@@ -270,36 +348,42 @@ public class BaseService implements IBaseService
     @Override
     public void moveFileContent(Scanner scanner1, Scanner scanner2) throws IOException
     {
-        System.out.print("Enter file name from which you want to move content: ");
-        String fileName = scanner1.nextLine();
-        System.out.print("Enter file name to which you want to move content: ");
-        String fileName2 = scanner2.nextLine();
-        currentFile = new File(fileName);
-        if(this.currentFile.exists())
-        {
-            try
-            {
-                String jsonContent = readFileContent(fileName);
-                content.setLength(0);
-                saveFile();
-                currentFile = new File(fileName2);
-                if(this.currentFile.exists())
-                {
-                    String jsonContent2 = readFileContent(fileName2);
-                    content.append(jsonContent);
-                    saveFile();
-                }else
-                {
-                    System.out.println("File" + fileName2 + "doesn't exit!");
-                }
-            }catch (IOException ex)
-            {
-                System.out.println("Failed to open file!");
-                ex.printStackTrace();
+        System.out.print("Enter path from which you want to move content: ");
+        String fromPath = scanner1.nextLine();
+        System.out.print("Enter path to which you want to move content: ");
+        String toPath = scanner2.nextLine();
+        File sourceDir = new File(fromPath);
+        File targetDir = new File(toPath);
+
+        if (!sourceDir.exists() || !sourceDir.isDirectory()) {
+            System.out.println("Error: Source path does not exist or is not a directory.");
+            return;
+        }
+
+        if (!targetDir.exists()) {
+            if (!targetDir.mkdirs()) {
+                System.out.println("Error: Could not create target directory.");
+                return;
             }
-        }else
-        {
-            System.out.println("File" + fileName + "doesn't exit!");
+        } else if (!targetDir.isDirectory()) {
+            System.out.println("Error: Target path is not a directory.");
+            return;
+        }
+
+        File[] filesToMove = sourceDir.listFiles();
+        if (filesToMove != null) {
+            for (File file : filesToMove) {
+                Path targetPath = targetDir.toPath().resolve(file.getName());
+                try {
+                    Files.move(file.toPath(), targetPath, StandardCopyOption.REPLACE_EXISTING);
+                    System.out.println("Moved: " + file.getName());
+                } catch (IOException e) {
+                    System.out.println("Error: Failed to move file " + file.getName());
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            System.out.println("Error: Failed to list files in the source directory.");
         }
     }
 }

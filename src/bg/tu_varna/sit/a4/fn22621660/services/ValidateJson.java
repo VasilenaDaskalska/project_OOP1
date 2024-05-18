@@ -2,7 +2,6 @@ package bg.tu_varna.sit.a4.fn22621660.services;
 
 import bg.tu_varna.sit.a4.fn22621660.contacts.IValidateJson;
 import bg.tu_varna.sit.a4.fn22621660.exeptions.InvalidJsonException;
-import bg.tu_varna.sit.a4.fn22621660.test;
 
 public class ValidateJson implements IValidateJson
 {
