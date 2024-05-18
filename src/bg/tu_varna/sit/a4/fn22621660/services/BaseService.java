@@ -89,7 +89,7 @@ public class BaseService implements IBaseService
             {
                 if(currentFile.createNewFile())
                 {
-                    System.out.println("Successfully opened " + path + "!");
+                    System.out.println("Successfully opened " + newFile.getName() + "!");
                     fileOpened = true;
                 }else
                 {
@@ -152,7 +152,8 @@ public class BaseService implements IBaseService
      * @throws IOException If an I/O error occurs.
      */
     @Override
-    public void createFile(Scanner scanner1, Scanner scanner2) throws IOException{
+    public void createFile(Scanner scanner1, Scanner scanner2) throws IOException
+    {
         System.out.print("Enter path: ");
         String path = scanner1.nextLine();
 
@@ -233,7 +234,7 @@ public class BaseService implements IBaseService
     public void saveAsFile(Scanner scanner) {
         if (this.fileOpened)
         {
-            System.out.print("Enter new file path: ");
+            System.out.print("Enter file path: ");
             String filePath = scanner.nextLine();
 
             try {
@@ -328,6 +329,11 @@ public class BaseService implements IBaseService
             scanner.useDelimiter("\n\n");
             String newContent = scanner.next();
             this.validateJson.validateJSON(newContent);
+
+            if(content == null)
+            {
+                content = new StringBuilder();
+            }
             content.append(newContent);
             System.out.println("File content updated.");
             System.out.println("If you want to save changes in the file, please choose {save} option!");
