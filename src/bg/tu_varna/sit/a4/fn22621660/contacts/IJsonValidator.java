@@ -5,7 +5,7 @@ import bg.tu_varna.sit.a4.fn22621660.exeptions.InvalidJsonException;
 /**
  * Interface defining the validation operation for JSON content.
  */
-public interface IValidateJson
+public interface IJsonValidator
 {
     /**
      * Validates the given JSON content.

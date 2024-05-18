@@ -1,12 +1,13 @@
 package bg.tu_varna.sit.a4.fn22621660.services;
 
-import bg.tu_varna.sit.a4.fn22621660.contacts.IValidateJson;
+import bg.tu_varna.sit.a4.fn22621660.contacts.IJsonValidator;
+import bg.tu_varna.sit.a4.fn22621660.contacts.IJsonValidator;
 import bg.tu_varna.sit.a4.fn22621660.exeptions.InvalidJsonException;
 
 /**
  * Implementation of the IValidateJson interface for JSON validation.
  */
-public class ValidateJson implements IValidateJson
+public class JsonValidator implements IJsonValidator
 {
     /**
      * Validates the syntax of a JSON string.

@@ -1,6 +1,7 @@
 package bg.tu_varna.sit.a4.fn22621660.services;
 
 import bg.tu_varna.sit.a4.fn22621660.contacts.IBaseService;
+import bg.tu_varna.sit.a4.fn22621660.contacts.IJsonValidator;
 import bg.tu_varna.sit.a4.fn22621660.exeptions.InvalidJsonException;
 
 import java.io.*;
@@ -15,8 +16,8 @@ import java.util.Scanner;
  */
 public class BaseService implements IBaseService
 {
-    /** Instance of {@link ValidateJson} used for JSON validation. */
-    private final ValidateJson validateJson = new ValidateJson();
+    /** Instance of {@link JsonValidator} used for JSON validation. */
+    private final IJsonValidator validateJson = new JsonValidator();
 
     /** The currently opened file. */
     private  File currentFile;
