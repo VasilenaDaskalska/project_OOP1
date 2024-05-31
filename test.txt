@@ -1,0 +1,5 @@
+{"{
+      "name":"Eternal Flame","squadName":"Super hero squad","secretBase":"Super tower","secretIdentity":"Unknown","homeTown":"Metro City","members":"[
+    {
+      "name": "Molecule Man","active":"true","formed":"2016","powers":"[
+        "Immortality","age":"500"}
