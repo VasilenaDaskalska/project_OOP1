@@ -1,7 +1,17 @@
 package bg.tu_varna.sit.a4.fn22621660.json;
 
+/**
+ * The {@code JsonFormat} class provides methods to format JSON strings with indentation.
+ */
 public class JsonFormat
 {
+    /**
+     * Formats the given JSON string with the specified indent width.
+     *
+     * @param jsonString the JSON string to format.
+     * @param indentWidth the width of each indentation level.
+     * @return the formatted JSON string with proper indentation.
+     */
     public String formatJson(String jsonString, int indentWidth) {
         StringBuilder formattedJson = new StringBuilder();
         String indent = createIndent(indentWidth);
@@ -51,6 +61,12 @@ public class JsonFormat
         return formattedJson.toString();
     }
 
+    /**
+     * Creates an indentation string of the specified width.
+     *
+     * @param width the width of the indentation.
+     * @return a string consisting of spaces with the specified width.
+     */
     public String createIndent(int width) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < width; i++) {

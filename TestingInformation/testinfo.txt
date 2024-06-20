@@ -3,6 +3,5 @@
   "MoreInfoUrl": "https://bing.com",
   "SettingName": "Manufacturer",
   "Operand": "Microsoft Corporation",
-  "DataType": "String",
-  "Age": "44"
+  "DataType": "String"
 }

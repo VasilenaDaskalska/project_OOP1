@@ -1,0 +1,6 @@
+{
+  "Power": {
+    "Earth": "Hvurlqm kamuni po koli ",
+    "Wind": "Wind wall "
+  }
+}

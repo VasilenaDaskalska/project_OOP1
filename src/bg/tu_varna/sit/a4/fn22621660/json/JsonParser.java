@@ -4,11 +4,21 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+/**
+ * The {@code JsonParser} class parses a JSON-formatted string into corresponding JSON value objects.
+ */
 public class JsonParser
 {
     private int index;
     private String json;
 
+    /**
+     * Parses a JSON object from the given JSON-formatted string.
+     *
+     * @param json the JSON-formatted string to parse.
+     * @return a {@code JsonObject} representing the parsed JSON object.
+     * @throws Exception if there are errors during parsing, such as invalid JSON format or unexpected characters.
+     */
     public JsonObject parseObject(String json) throws Exception {
         this.json = json;
         this.index = 0;
@@ -20,6 +30,12 @@ public class JsonParser
         return parseJsonObject();
     }
 
+    /**
+     * Parses a JSON object from the current position in the JSON-formatted string.
+     *
+     * @return a {@code JsonObject} representing the parsed JSON object.
+     * @throws Exception if there are errors during parsing, such as invalid JSON format or unexpected characters.
+     */
     private JsonObject parseJsonObject() throws Exception {
         JsonObject jsonObject = new JsonObject();
         skipWhitespace();
@@ -46,6 +62,12 @@ public class JsonParser
         return jsonObject;
     }
 
+    /**
+     * Parses a JSON array from the current position in the JSON-formatted string.
+     *
+     * @return a {@code JsonArray} representing the parsed JSON array.
+     * @throws Exception if there are errors during parsing, such as invalid JSON format or unexpected characters.
+     */
     private JsonArray parseJsonArray() throws Exception {
         JsonArray jsonArray = new JsonArray();
         skipWhitespace();
@@ -65,6 +87,12 @@ public class JsonParser
         return jsonArray;
     }
 
+    /**
+     * Parses a JSON value from the current position in the JSON-formatted string.
+     *
+     * @return a {@code JsonValue} representing the parsed JSON value.
+     * @throws Exception if there are errors during parsing, such as invalid JSON format or unexpected characters.
+     */
     private JsonValue parseValue() throws Exception {
         skipWhitespace();
         if (index >= json.length()) {
@@ -90,6 +118,12 @@ public class JsonParser
         }
     }
 
+    /**
+     * Parses a JSON string from the current position in the JSON-formatted string.
+     *
+     * @return the parsed JSON string as a {@code String}.
+     * @throws Exception if there are errors during parsing, such as invalid escape sequences or unexpected characters.
+     */
     private String parseString() throws Exception {
         StringBuilder sb = new StringBuilder();
         index++; // Skip the opening quote
@@ -145,6 +179,12 @@ public class JsonParser
         return sb.toString();
     }
 
+    /**
+     * Parses a JSON boolean value from the current position in the JSON-formatted string.
+     *
+     * @return the parsed JSON boolean value as a {@code boolean}.
+     * @throws Exception if there are errors during parsing, such as an invalid boolean value.
+     */
     private boolean parseBoolean() throws Exception {
         if (json.startsWith("true", index)) {
             index += 4;
@@ -157,6 +197,12 @@ public class JsonParser
         }
     }
 
+    /**
+     * Parses a JSON null value from the current position in the JSON-formatted string.
+     *
+     * @return a {@code JsonNull} representing the parsed JSON null value.
+     * @throws Exception if there are errors during parsing, such as an invalid null value.
+     */
     private JsonNull parseNull() throws Exception {
         if (json.startsWith("null", index)) {
             index += 4;
@@ -166,6 +212,12 @@ public class JsonParser
         }
     }
 
+    /**
+     * Parses a JSON number from the current position in the JSON-formatted string.
+     *
+     * @return the parsed JSON number as a {@code Number}.
+     * @throws Exception if there are errors during parsing, such as an invalid number format.
+     */
     private Number parseNumber() throws Exception {
         int startIndex = index;
         if (json.charAt(index) == '-') {
@@ -197,12 +249,21 @@ public class JsonParser
         }
     }
 
+    /**
+     * Skips over any whitespace characters from the current position in the JSON-formatted string.
+     */
     private void skipWhitespace() {
         while (index < json.length() && Character.isWhitespace(json.charAt(index))) {
             index++;
         }
     }
 
+    /**
+     * Checks if a character is a digit ('0'-'9').
+     *
+     * @param c the character to check.
+     * @return {@code true} if the character is a digit, {@code false} otherwise.
+     */
     private boolean isDigit(char c) {
         return c >= '0' && c <= '9';
     }

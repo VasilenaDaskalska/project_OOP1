@@ -2,9 +2,18 @@ package bg.tu_varna.sit.a4.fn22621660.commands;
 
 import bg.tu_varna.sit.a4.fn22621660.contacts.ICommand;
 
+/**
+ * Command implementation for displaying help information about available commands.
+ */
 public class HelpCommand implements ICommand
 {
 
+    /**
+     * Executes the help command to display available commands and their descriptions.
+     *
+     * @param args command arguments (not used in this command).
+     * @throws Exception if there's an issue executing the command (not expected in this implementation).
+     */
     @Override
     public void execute(String[] args) throws Exception
     {

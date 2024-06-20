@@ -9,13 +9,20 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Manages a JSON file system with commands to manipulate JSON data.
+ */
 public class JsonFileManager {
     private JsonObject rootNode;
     private String currentFilePath;
     private Map<String, ICommand> commandMap;
 
+    /**
+     * Initializes the JsonFileManager with commands for file management.
+     */
     public JsonFileManager() {
         commandMap = new HashMap<>();
+        // Initialize commands with references to this JsonFileManager instance
         commandMap.put("open", new OpenCommand(this));
         commandMap.put("close", new CloseCommand(this));
         commandMap.put("save", new SaveCommand(this));
@@ -30,22 +37,48 @@ public class JsonFileManager {
         commandMap.put("help", new HelpCommand());
     }
 
+    /**
+     * Sets the root JSON object for the file manager.
+     *
+     * @param rootNode the root JSON object to set.
+     */
     public void setRootNode(JsonObject rootNode) {
         this.rootNode = rootNode;
     }
 
+    /**
+     * Retrieves the root JSON object of the file manager.
+     *
+     * @return the root JSON object.
+     */
     public JsonObject getRootNode() {
         return rootNode;
     }
 
+    /**
+     * Sets the current file path being managed.
+     *
+     * @param currentFilePath the current file path to set.
+     */
     public void setCurrentFilePath(String currentFilePath) {
         this.currentFilePath = currentFilePath;
     }
 
+    /**
+     * Retrieves the current file path being managed.
+     *
+     * @return the current file path.
+     */
     public String getCurrentFilePath() {
         return currentFilePath;
     }
 
+    /**
+     * Retrieves the JSON value at the specified path.
+     *
+     * @param path the path to the JSON value, e.g., "root.property.subproperty".
+     * @return the JSON value at the specified path, or null if not found.
+     */
     public JsonValue getNodeAtPath(String path) {
         String[] keys = path.split("\\.");
         JsonValue currentNode = rootNode;
@@ -59,6 +92,13 @@ public class JsonFileManager {
         return currentNode;
     }
 
+    /**
+     * Sets the JSON value at the specified path.
+     *
+     * @param path  the path to the JSON value, e.g., "root.property.subproperty".
+     * @param value the JSON value to set at the path.
+     * @return true if the value was successfully set, false otherwise.
+     */
     public boolean setNodeAtPath(String path, JsonValue value) {
         String[] keys = path.split("\\.");
 
@@ -83,6 +123,13 @@ public class JsonFileManager {
         return false;
     }
 
+    /**
+     * Creates a JSON object at the specified path if it does not already exist.
+     *
+     * @param path  the path to the JSON object, e.g., "root.property.subproperty".
+     * @param value the initial JSON value to set at the end of the path.
+     * @return true if the JSON object was successfully created, false otherwise.
+     */
     public boolean createNodeAtPath(String path, JsonValue value) {
         String[] keys = path.split("\\.");
         JsonValue currentNode = rootNode;
@@ -107,6 +154,12 @@ public class JsonFileManager {
         return false;
     }
 
+    /**
+     * Deletes the JSON value at the specified path.
+     *
+     * @param path the path to the JSON value to delete, e.g., "root.property.subproperty".
+     * @return true if the value was successfully deleted, false otherwise.
+     */
     public boolean deleteNodeAtPath(String path) {
         String[] keys = path.split("\\.");
         JsonValue currentNode = rootNode;
@@ -124,6 +177,11 @@ public class JsonFileManager {
         return false;
     }
 
+    /**
+     * Executes a command specified by the command line.
+     *
+     * @param commandLine the command line containing the command and optional arguments.
+     */
     public void executeCommand(String commandLine) {
         String[] parts = commandLine.split(" ");
         if (parts.length == 0) return;
