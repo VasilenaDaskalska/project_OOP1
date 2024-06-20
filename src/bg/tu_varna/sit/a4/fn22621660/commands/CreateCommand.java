@@ -20,7 +20,8 @@ public class CreateCommand implements ICommand
 
     @Override
     public void execute(String[] args) {
-        if (jsonFileManager.getCurrentFilePath() == null) {
+        if (jsonFileManager.getCurrentFilePath() == null)
+        {
             System.out.println("No file is currently open.");
             return;
         }

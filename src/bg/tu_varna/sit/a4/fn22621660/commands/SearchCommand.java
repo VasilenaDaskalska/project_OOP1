@@ -13,7 +13,7 @@ public class SearchCommand implements ICommand
     }
 
     @Override
-    public void execute(String[] args) {
+    public void execute(String[] args) throws Exception {
         if (jsonFileManager.getCurrentFilePath() == null) {
             System.out.println("No file is currently open.");
             return;
@@ -24,7 +24,7 @@ public class SearchCommand implements ICommand
         }
 
         String key = args[0];
-        JsonValue value = jsonFileManager.getRootNode().get(key);
+        JsonValue value = (JsonValue) jsonFileManager.getRootNode().get(key);
         if (value != null) {
             System.out.println(value.toJsonString());
         } else {

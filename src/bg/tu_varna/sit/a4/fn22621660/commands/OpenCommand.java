@@ -10,6 +10,7 @@ import bg.tu_varna.sit.a4.fn22621660.services.JsonValidator;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class OpenCommand implements ICommand
 {
@@ -22,40 +23,40 @@ public class OpenCommand implements ICommand
     }
 
     @Override
-    public void execute(String[] args) throws IOException {
+    public void execute(String[] args) {
         if (args.length < 1) {
             throw new IllegalArgumentException("File path required.");
         }
+
         String filePath = args[0];
-        File file = new File(filePath);
-        if (!file.exists()) {
-            System.out.println("File not found. Creating a new file with empty content.");
-            if (file.createNewFile()) {
-                jsonFileManager.setRootNode(new JsonObject());
+        try {
+            String content = new String(Files.readAllBytes(Paths.get(filePath))).trim();
+            JsonObject rootNode;
+
+            if (content.isEmpty()) 
+            {
+                rootNode = new JsonObject();
             } else {
-                throw new IOException("Unable to create new file.");
-            }
-        } else
-        {
-            String content = new String(Files.readAllBytes(file.toPath()));
-            if(!content.isEmpty())
-            {
-                if (this.jsonValidator.isValidJson(content))
+                if (!this.jsonValidator.isValidJson(content))
                 {
-                    jsonFileManager.setRootNode(JsonParser.parse(content));
-                    jsonFileManager.setCurrentFilePath(filePath);
-                    System.out.println("Successfully opened " + filePath);
-                } else
-                {
-                    System.out.println("Failed to open " + filePath + ": Invalid JSON content.");
+                    return;
                 }
-            }else
-            {
-                jsonFileManager.setRootNode(JsonParser.parse(content));
-                jsonFileManager.setCurrentFilePath(filePath);
-                jsonFileManager.getRootNode().put(filePath, jsonFileManager.getRootNode());
-                System.out.println("Successfully opened " + filePath);
+                rootNode = parseJson(content);
             }
+
+            jsonFileManager.setRootNode(rootNode);
+            jsonFileManager.setCurrentFilePath(filePath);
+            System.out.println("Successfully opened " + filePath);
+        } catch (IOException e) {
+            System.out.println("Error reading file: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Error parsing JSON: " + e.getMessage());
         }
+    }
+
+    private JsonObject parseJson(String content) throws Exception
+    {
+        JsonParser parser = new JsonParser();
+        return parser.parseObject(content);
     }
 }

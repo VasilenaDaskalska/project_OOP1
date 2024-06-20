@@ -8,7 +8,7 @@ public class JsonArray extends JsonValue
     private List<JsonValue> list;
 
     public JsonArray() {
-        this.list = new ArrayList<>();
+        list = new ArrayList<>();
     }
 
     public void add(JsonValue value) {
@@ -19,10 +19,6 @@ public class JsonArray extends JsonValue
         return list.get(index);
     }
 
-    public void remove(int index) {
-        list.remove(index);
-    }
-
     public int size() {
         return list.size();
     }
@@ -31,20 +27,14 @@ public class JsonArray extends JsonValue
     public String toJsonString() {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
-        boolean first = true;
-        for (JsonValue value : list) {
-            if (!first) {
+        int size = list.size();
+        for (int i = 0; i < size; i++) {
+            sb.append(list.get(i).toJsonString());
+            if (i < size - 1) {
                 sb.append(",");
             }
-            sb.append(value.toJsonString());
-            first = false;
         }
         sb.append("]");
         return sb.toString();
-    }
-
-    @Override
-    public String toString() {
-        return toJsonString();
     }
 }

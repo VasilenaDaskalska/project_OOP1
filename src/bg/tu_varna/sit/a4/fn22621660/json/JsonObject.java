@@ -9,43 +9,40 @@ public class JsonObject  extends JsonValue
     private Map<String, JsonValue> map;
 
     public JsonObject() {
-        this.map = new HashMap<>();
-    }
-
-    public JsonValue get(String key) {
-        return map.get(key);
+        map = new HashMap<>();
     }
 
     public void put(String key, JsonValue value) {
         map.put(key, value);
     }
 
-    public void remove(String key) {
-        map.remove(key);
+    public JsonValue get(String key) {
+        return map.get(key);
     }
 
     public Set<String> keySet() {
         return map.keySet();
     }
 
+
+    public void remove(String key) {
+        map.remove(key);
+    }
+
     @Override
     public String toJsonString() {
         StringBuilder sb = new StringBuilder();
         sb.append("{");
-        boolean first = true;
+        int size = map.size();
+        int count = 0;
         for (Map.Entry<String, JsonValue> entry : map.entrySet()) {
-            if (!first) {
+            sb.append("\"").append(entry.getKey()).append("\":").append(entry.getValue().toJsonString());
+            if (count < size - 1) {
                 sb.append(",");
             }
-            sb.append("\"").append(entry.getKey()).append("\":").append(entry.getValue().toJsonString());
-            first = false;
+            count++;
         }
         sb.append("}");
         return sb.toString();
-    }
-
-    @Override
-    public String toString() {
-        return toJsonString();
     }
 }

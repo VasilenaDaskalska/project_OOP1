@@ -19,7 +19,7 @@ public class JsonFileManager {
         commandMap.put("open", new OpenCommand(this));
         commandMap.put("close", new CloseCommand(this));
         commandMap.put("save", new SaveCommand(this));
-        commandMap.put("saveas", new SaveAsCommand(this));
+        commandMap.put("save_as", new SaveAsCommand(this));
         commandMap.put("print", new PrintCommand(this));
         commandMap.put("search", new SearchCommand(this));
         commandMap.put("set", new SetCommand(this));
@@ -51,7 +51,7 @@ public class JsonFileManager {
         JsonValue currentNode = rootNode;
         for (String key : keys) {
             if (currentNode instanceof JsonObject) {
-                currentNode = ((JsonObject) currentNode).get(key);
+                currentNode = (JsonValue) ((JsonObject) currentNode).get(key);
             } else {
                 return null;
             }
@@ -71,7 +71,7 @@ public class JsonFileManager {
 
         for (int i = 0; i < keys.length - 1; i++) {
             if (currentNode instanceof JsonObject) {
-                currentNode = ((JsonObject) currentNode).get(keys[i]);
+                currentNode = (JsonValue) ((JsonObject) currentNode).get(keys[i]);
             } else {
                 return false;
             }
@@ -92,7 +92,7 @@ public class JsonFileManager {
                 if (jsonObject.get(keys[i]) == null) {
                     jsonObject.put(keys[i], new JsonObject());
                 }
-                currentNode = jsonObject.get(keys[i]);
+                currentNode = (JsonValue) jsonObject.get(keys[i]);
             } else {
                 return false;
             }
@@ -112,7 +112,7 @@ public class JsonFileManager {
         JsonValue currentNode = rootNode;
         for (int i = 0; i < keys.length - 1; i++) {
             if (currentNode instanceof JsonObject) {
-                currentNode = ((JsonObject) currentNode).get(keys[i]);
+                currentNode = (JsonValue) ((JsonObject) currentNode).get(keys[i]);
             } else {
                 return false;
             }
