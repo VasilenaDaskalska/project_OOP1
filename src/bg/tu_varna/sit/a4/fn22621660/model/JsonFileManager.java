@@ -34,6 +34,7 @@ public class JsonFileManager {
         commandMap.put("delete", new DeleteCommand(this));
         commandMap.put("move", new MoveCommand());
         commandMap.put("edit", new EditCommand(this));
+        commandMap.put("exit", new ExitCommand());
         commandMap.put("help", new HelpCommand());
     }
 
@@ -84,7 +85,7 @@ public class JsonFileManager {
         JsonValue currentNode = rootNode;
         for (String key : keys) {
             if (currentNode instanceof JsonObject) {
-                currentNode = (JsonValue) ((JsonObject) currentNode).get(key);
+                currentNode = ((JsonObject) currentNode).get(key);
             } else {
                 return null;
             }

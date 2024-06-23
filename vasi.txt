@@ -1,6 +1,5 @@
 {
-  "Power": {
-    "Earth": "Hvurlqm kamuni po koli ",
-    "Wind": "Wind wall "
-  }
+  "ID": "1 ",
+  "LastName": "Ivanov ",
+  "Name": "Ivan "
 }
