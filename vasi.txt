@@ -1,5 +1,30 @@
 {
-  "ID": "1 ",
-  "LastName": "Ivanov ",
-  "Name": "Ivan "
+  "name": "John Doe",
+  "age": 30,
+  "isStudent": false,
+  "address": {
+    "street": "123 Main St",
+    "city": "Anytown",
+    "postalCode": "A1B 2C3"
+  },
+  "phoneNumbers": [
+    {
+      "type": "home",
+      "number": "123-456-7890"
+    },
+    {
+      "type": "work",
+      "number": "987-654-3210"
+    }
+  ],
+  "pets": [
+    {
+      "name": "Fluffy",
+      "species": "cat"
+    },
+    {
+      "name": "Buddy",
+      "species": "dog"
+    }
+  ]
 }

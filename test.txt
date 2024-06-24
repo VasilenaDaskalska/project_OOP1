@@ -1,0 +1,10 @@
+{
+  "PhoneNumber": {
+    "Type": "home ",
+    "Value": "0878760131 "
+  },
+  "ID": "1 ",
+  "LastName": "Ivanov ",
+  "Job": "Chistach ",
+  "Name": "Ivan "
+}

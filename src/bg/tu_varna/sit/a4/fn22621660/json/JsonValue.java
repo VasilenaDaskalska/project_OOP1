@@ -11,5 +11,5 @@ public abstract class JsonValue
      *
      * @return a {@code String} representing the JSON value.
      */
-    public abstract String toJsonString();;
+    public abstract String toJsonString();
 }
