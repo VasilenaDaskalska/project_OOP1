@@ -2,6 +2,7 @@ package bg.tu_varna.sit.a4.fn22621660.model;
 
 import bg.tu_varna.sit.a4.fn22621660.commands.*;
 import bg.tu_varna.sit.a4.fn22621660.contacts.ICommand;
+import bg.tu_varna.sit.a4.fn22621660.enums.CommandType;
 import bg.tu_varna.sit.a4.fn22621660.json.JsonObject;
 import bg.tu_varna.sit.a4.fn22621660.json.JsonValue;
 
@@ -15,7 +16,7 @@ import java.util.Map;
 public class JsonFileManager {
     private JsonObject rootNode;
     private String currentFilePath;
-    private Map<String, ICommand> commandMap;
+    private Map<CommandType, ICommand> commandMap;
 
     /**
      * Initializes the JsonFileManager with commands for file management.
@@ -23,19 +24,19 @@ public class JsonFileManager {
     public JsonFileManager() {
         commandMap = new HashMap<>();
         // Initialize commands with references to this JsonFileManager instance
-        commandMap.put("open", new OpenCommand(this));
-        commandMap.put("close", new CloseCommand(this));
-        commandMap.put("save", new SaveCommand(this));
-        commandMap.put("save_as", new SaveAsCommand(this));
-        commandMap.put("print", new PrintCommand(this));
-        commandMap.put("search", new SearchCommand(this));
-        commandMap.put("set", new SetCommand(this));
-        commandMap.put("create", new CreateCommand(this));
-        commandMap.put("delete", new DeleteCommand(this));
-        commandMap.put("move", new MoveCommand());
-        commandMap.put("edit", new EditCommand(this));
-        commandMap.put("exit", new ExitCommand());
-        commandMap.put("help", new HelpCommand());
+        commandMap.put(CommandType.OPEN, new OpenCommand(this));
+        commandMap.put(CommandType.CLOSE, new CloseCommand(this));
+        commandMap.put(CommandType.SAVE, new SaveCommand(this));
+        commandMap.put(CommandType.SAVE_AS, new SaveAsCommand(this));
+        commandMap.put(CommandType.PRINT, new PrintCommand(this));
+        commandMap.put(CommandType.SEARCH, new SearchCommand(this));
+        commandMap.put(CommandType.SET, new SetCommand(this));
+        commandMap.put(CommandType.CREATE, new CreateCommand(this));
+        commandMap.put(CommandType.DELETE, new DeleteCommand(this));
+        commandMap.put(CommandType.MOVE, new MoveCommand());
+        commandMap.put(CommandType.EDIT, new EditCommand(this));
+        commandMap.put(CommandType.EXIT, new ExitCommand());
+        commandMap.put(CommandType.HELP, new HelpCommand());
     }
 
     /**
@@ -187,8 +188,8 @@ public class JsonFileManager {
         String[] parts = commandLine.split(" ");
         if (parts.length == 0) return;
 
-        String commandKey = parts[0];
-        ICommand command = commandMap.get(commandKey);
+        String commandKey = parts[0].toUpperCase();
+        ICommand command = commandMap.get(CommandType.valueOf(commandKey));
         if (command == null) {
             System.out.println("Invalid command. Type 'help' for a list of commands.");
             return;
